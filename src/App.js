@@ -34,11 +34,11 @@ Also add functionality to update and delete record, and handle process effecient
 import { Route, Routes } from "react-router-dom";
 
 // Importing components from their respective files
-import EmployeeDirectory from "./Components/EmployeeDirectory";
+import EmployeeDirectory from "./Components/EmployeeDirectory/EmployeeDirectory";
 import Navigation from "./routes/navigation/navigation";
-import EmployeeCreate from "./Components/EmployeeCreate";
-import EmployeeEditForm from "./Components/EmployeeEditForm";
-import EmployeeDetails from "./Components/EmployeeDetails";
+import EmployeeCreate from "./Components/EmployeeCreate/EmployeeCreate";
+import EmployeeEditForm from "./Components/EmployeeEditForm/EmployeeEditForm";
+import EmployeeDetails from "./Components/EmployeeDetails/EmployeeDetails";
 
 // The main App component
 function App() {

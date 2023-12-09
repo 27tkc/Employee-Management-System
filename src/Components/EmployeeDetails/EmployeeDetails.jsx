@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import withRouter from "./withRouter"; // Importing the withRouter HOC for accessing route parameters
+import { Form, Container, Button } from "react-bootstrap";
+import withRouter from "../withRouter"; // Importing the withRouter HOC for accessing route parameters
 import "./EmployeeDetails.css"; // Importing the CSS file for styling
 
 class EmployeeDetails extends Component {
@@ -80,7 +81,7 @@ class EmployeeDetails extends Component {
 
     // Displaying the employee details in a form
     return (
-      <div className="container">
+      <Container className="employee-details-container">
         <h1>Employee Details</h1>
 
         {/* Displaying error message if any */}
@@ -89,95 +90,83 @@ class EmployeeDetails extends Component {
         </span>
 
         {/* Form for displaying employee details */}
-        <div>
+        <Form className="employee-details-form">
           {/* Form input fields for various employee details */}
           {/* Each input field is disabled to show information only */}
-          <div>
-            <label htmlFor="firstName">First Name:</label>
-            <input
+          <Form.Group controlId="firstName">
+            <Form.Label>First Name:</Form.Label>
+            <Form.Control
               type="text"
-              name="firstName"
-              id="firstName"
               value={employee?.firstName || ""}
               placeholder="Enter first Name"
               disabled
             />
-          </div>
-          <div>
-            <label htmlFor="lastName">Last Name:</label>
-            <input
+          </Form.Group>
+          <Form.Group controlId="lastName">
+            <Form.Label>Last Name:</Form.Label>
+            <Form.Control
               type="text"
-              name="lastName"
-              id="lastName"
               value={employee?.lastName || ""}
               placeholder="Enter last Name"
               disabled
             />
-          </div>
-          <div>
-            <label htmlFor="age">Age:</label>
-            <input
+          </Form.Group>
+          <Form.Group controlId="age">
+            <Form.Label>Age:</Form.Label>
+            <Form.Control
               type="number"
-              name="age"
-              id="age"
               value={employee?.age || ""}
               placeholder="Enter age"
               disabled
             />
-          </div>
-          <div>
-            <label htmlFor="dateOfJoining">Date of joining:</label>
-            <input
+          </Form.Group>
+          <Form.Group controlId="dateOfJoining">
+            <Form.Label>Date of Joining:</Form.Label>
+            <Form.Control
               type="date"
-              name="dateOfJoining"
               value={employee?.dateOfJoining || ""}
-              id="dateOfJoining"
               placeholder="date of joining"
               disabled
             />
-          </div>
-          <div>
-            <label htmlFor="employeeType">Employee Type:</label>
-            <input
-              name="employeeType"
+          </Form.Group>
+          <Form.Group controlId="employeeType">
+            <Form.Label>Employee Type:</Form.Label>
+            <Form.Control
+              type="text"
               value={employee?.employeeType || ""}
-              id="employeeType"
               placeholder="employeeType"
               disabled
-            ></input>
-          </div>
-          <div>
-            <label htmlFor="title">Title:</label>
-            <input
-              id="title"
+            />
+          </Form.Group>
+          <Form.Group controlId="title">
+            <Form.Label>Title:</Form.Label>
+            <Form.Control
+              type="text"
               value={employee?.title || ""}
-              name="title"
               placeholder="title"
               disabled
-            ></input>
-          </div>
-          <div>
-            <label htmlFor="department">Department:</label>
-            <input
-              id="department"
+            />
+          </Form.Group>
+          <Form.Group controlId="department">
+            <Form.Label>Department:</Form.Label>
+            <Form.Control
+              type="text"
               value={employee?.department || ""}
-              name="department"
               placeholder="department"
               disabled
-            ></input>
-          </div>
-          <div>
-            <label htmlFor="currentStatus">Current Status:</label>
-            <input
-              id="currentStatus"
+            />
+          </Form.Group>
+          <Form.Group controlId="currentStatus">
+            <Form.Label>Current Status:</Form.Label>
+            <Form.Control
+              type="text"
               value={employee?.currentStatus || ""}
-              name="currentStatus"
               placeholder="currentStatus"
               disabled
-            ></input>
-          </div>
-        </div>
-      </div>
+            />
+          </Form.Group>
+        </Form>
+      </Container>
     );
   }
 }

@@ -1,5 +1,5 @@
-// Importing necessary modules and CSS file
 import React, { Component } from "react";
+import { Form, Container, Button, Alert } from "react-bootstrap";
 import "./EmployeeCreate.css"; // Importing your CSS file
 
 // EmployeeCreate component
@@ -70,12 +70,7 @@ class EmployeeCreate extends Component {
             this.setState({
               error: false,
               showMessage: true,
-              message:
-                "Employee " +
-                newEmployee.firstName +
-                " " +
-                newEmployee.lastName +
-                " created successfully!",
+              message: `Employee ${newEmployee.firstName} ${newEmployee.lastName} created successfully!`,
             });
 
             // Hide the success message after 3 seconds
@@ -112,103 +107,87 @@ class EmployeeCreate extends Component {
 
   render() {
     // Display success or error message
-    let spanMessage = null;
+    let alertMessage = null;
     if (this.state.showMessage) {
-      spanMessage = (
-        <span
-          className={`${
-            this.state.error ? "text-danger" : "text-success"
-          } mb-3`}
+      alertMessage = (
+        <Alert
+          variant={this.state.error ? "danger" : "success"}
+          className="mb-3"
         >
           {this.state.message}
-        </span>
+        </Alert>
       );
     }
 
     // Render the form
     return (
-      <div className="employee-form">
+      <Container className="employee-form">
         <h1>Create New Employee</h1>
-        {spanMessage}
-        <form name="EmployeeCreate" onSubmit={this.handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="firstName">First Name</label>
-            <input
-              type="text"
-              name="firstName"
-              className="form-control"
-              required
-            />
-          </div>
+        {alertMessage}
+        <Form name="EmployeeCreate" onSubmit={this.handleSubmit}>
+          {/* Form input fields for various employee details */}
+          <Form.Group controlId="firstName">
+            <Form.Label>First Name</Form.Label>
+            <Form.Control type="text" name="firstName" required />
+          </Form.Group>
 
-          <div className="form-group">
-            <label htmlFor="lastName">Last Name</label>
-            <input
-              type="text"
-              name="lastName"
-              className="form-control"
-              required
-            />
-          </div>
+          <Form.Group controlId="lastName">
+            <Form.Label>Last Name</Form.Label>
+            <Form.Control type="text" name="lastName" required />
+          </Form.Group>
 
-          <div className="form-group">
-            <label htmlFor="age">Age</label>
-            <input
+          <Form.Group controlId="age">
+            <Form.Label>Age</Form.Label>
+            <Form.Control
               type="text"
               name="age"
-              className="form-control"
               placeholder="Age should be between 20-70"
               required
             />
-          </div>
+          </Form.Group>
 
-          <div className="form-group">
-            <label htmlFor="dateOfJoining">Date of Joining</label>
-            <input
-              type="date"
-              name="dateOfJoining"
-              className="form-control"
-              required
-            />
-          </div>
+          <Form.Group controlId="dateOfJoining">
+            <Form.Label>Date of Joining</Form.Label>
+            <Form.Control type="date" name="dateOfJoining" required />
+          </Form.Group>
 
-          <div className="form-group">
-            <label htmlFor="title">Title</label>
-            <select name="title" className="form-control form-select">
+          <Form.Group controlId="title">
+            <Form.Label>Title</Form.Label>
+            <Form.Control as="select" name="title">
               <option value="Employee">Employee</option>
               <option value="Manager">Manager</option>
               <option value="Director">Director</option>
               <option value="VP">VP</option>
-            </select>
-          </div>
+            </Form.Control>
+          </Form.Group>
 
-          <div className="form-group">
-            <label htmlFor="department">Department</label>
-            <select name="department" className="form-control form-select">
+          <Form.Group controlId="department">
+            <Form.Label>Department</Form.Label>
+            <Form.Control as="select" name="department">
               <option value="IT">IT</option>
               <option value="Marketing">Marketing</option>
               <option value="HR">HR</option>
               <option value="Engineering">Engineering</option>
-            </select>
-          </div>
+            </Form.Control>
+          </Form.Group>
 
-          <div className="form-group">
-            <label htmlFor="employeeType">Employee Type</label>
-            <select name="employeeType" className="form-control form-select">
+          <Form.Group controlId="employeeType">
+            <Form.Label>Employee Type</Form.Label>
+            <Form.Control as="select" name="employeeType">
               <option value="Full-Time">Full-Time</option>
               <option value="Part-Time">Part-Time</option>
               <option value="Intern">Intern</option>
               <option value="Contract">Contract</option>
-            </select>
-          </div>
-
+            </Form.Control>
+          </Form.Group>
+          <br />
           <div className="form-group d-flex justify-content-center">
-            <button type="submit" className="btn btn-primary">
+            <Button type="submit" variant="primary">
               Add new Employee
-            </button>
+            </Button>
           </div>
-        </form>
-      </div>
+        </Form>
+      </Container>
     );
   }
 }

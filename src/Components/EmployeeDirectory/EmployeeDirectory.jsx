@@ -1,6 +1,6 @@
 import { Component } from "react";
-import EmployeeSearch from "./EmployeeSearch";
-import EmployeeTable from "./EmployeeTable";
+import EmployeeSearch from "../EmployeeSearch";
+import EmployeeTable from "../EmployeeTable";
 import "./EmployeeDirectory.css";
 
 class EmployeeDirectory extends Component {

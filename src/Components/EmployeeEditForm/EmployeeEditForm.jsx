@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Form, Container, Button, Alert } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./EmployeeEditForm.css";
 
@@ -25,12 +26,12 @@ const EmployeeEditForm = () => {
   const [formData, setFormData] = useState(editedEmployee);
 
   // Variable for displaying success or error message
-  let spanMessage = null;
+  let alertMessage = null;
   if (showMessage) {
-    spanMessage = (
-      <span className={`${error ? "text-danger" : "text-success"} mb-3`}>
+    alertMessage = (
+      <Alert variant={error ? "danger" : "success"} className="mb-3">
         {message}
-      </span>
+      </Alert>
     );
   }
 
@@ -71,11 +72,7 @@ const EmployeeEditForm = () => {
         setError(false);
         setShowMessage(true);
         setMessage(
-          "Employee " +
-            updatedEmployee.firstName +
-            " " +
-            updatedEmployee.lastName +
-            " updated successfully!"
+          `Employee ${updatedEmployee.firstName} ${updatedEmployee.lastName} updated successfully!`
         );
 
         // Hides the success message after 3 seconds
@@ -91,67 +88,63 @@ const EmployeeEditForm = () => {
   };
 
   // Function to handle input changes in the form
-  function onEditInputChange(e) {
+  const onEditInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-  }
+  };
 
   // Rendering the component
   return (
-    <div className="edit-employee-form modal-content">
+    <Container className="edit-employee-form modal-content">
       <h3 className="mb-4">Edit Employee Data</h3>
-      {spanMessage}
-      <form name="editForm">
+      {alertMessage}
+      <Form name="editForm">
         {/* Form input fields */}
-        <div className="form-group">
-          <label htmlFor="firstName">First Name</label>
-          <input
+        <Form.Group controlId="firstName">
+          <Form.Label>First Name</Form.Label>
+          <Form.Control
             type="text"
-            className="form-control"
             name="firstName"
             value={formData.firstName}
             disabled
           />
-        </div>
+        </Form.Group>
 
-        <div className="form-group">
-          <label htmlFor="lastName">Last Name</label>
-          <input
+        <Form.Group controlId="lastName">
+          <Form.Label>Last Name</Form.Label>
+          <Form.Control
             type="text"
-            className="form-control"
             name="lastName"
             value={formData.lastName}
             disabled
           />
-        </div>
+        </Form.Group>
 
-        <div className="form-group">
-          <label htmlFor="age">Age</label>
-          <input
+        <Form.Group controlId="age">
+          <Form.Label>Age</Form.Label>
+          <Form.Control
             type="text"
-            className="form-control"
             name="age"
             value={formData.age}
             placeholder="Age should be between 20-70"
             disabled
           />
-        </div>
+        </Form.Group>
 
-        <div className="form-group">
-          <label htmlFor="dateOfJoining">Date of Joining</label>
-          <input
+        <Form.Group controlId="dateOfJoining">
+          <Form.Label>Date of Joining</Form.Label>
+          <Form.Control
             type="date"
-            className="form-control"
             name="dateOfJoining"
             value={formData.dateOfJoining}
             disabled
           />
-        </div>
+        </Form.Group>
 
-        <div className="form-group">
-          <label htmlFor="title">Title</label>
-          <select
+        <Form.Group controlId="title">
+          <Form.Label>Title</Form.Label>
+          <Form.Control
+            as="select"
             name="title"
-            className="form-select"
             value={formData.title}
             onChange={onEditInputChange}
           >
@@ -159,14 +152,14 @@ const EmployeeEditForm = () => {
             <option value="Manager">Manager</option>
             <option value="Director">Director</option>
             <option value="VP">VP</option>
-          </select>
-        </div>
+          </Form.Control>
+        </Form.Group>
 
-        <div className="form-group">
-          <label htmlFor="department">Department</label>
-          <select
+        <Form.Group controlId="department">
+          <Form.Label>Department</Form.Label>
+          <Form.Control
+            as="select"
             name="department"
-            className="form-select"
             value={formData.department}
             onChange={onEditInputChange}
           >
@@ -174,14 +167,14 @@ const EmployeeEditForm = () => {
             <option value="Marketing">Marketing</option>
             <option value="HR">HR</option>
             <option value="Engineering">Engineering</option>
-          </select>
-        </div>
+          </Form.Control>
+        </Form.Group>
 
-        <div className="form-group">
-          <label htmlFor="employeeType">Employee Type</label>
-          <select
+        <Form.Group controlId="employeeType">
+          <Form.Label>Employee Type</Form.Label>
+          <Form.Control
+            as="select"
             name="employeeType"
-            className="form-select"
             value={formData.employeeType}
             disabled
           >
@@ -189,41 +182,38 @@ const EmployeeEditForm = () => {
             <option value="Part-Time">Part-Time</option>
             <option value="Intern">Intern</option>
             <option value="Contract">Contract</option>
-          </select>
-        </div>
+          </Form.Control>
+        </Form.Group>
 
-        <div className="form-group">
-          <label htmlFor="currentStatus">Current Status</label>
-          <select
+        <Form.Group controlId="currentStatus">
+          <Form.Label>Current Status</Form.Label>
+          <Form.Control
+            as="select"
             name="currentStatus"
-            className="form-select"
             value={formData.currentStatus}
             onChange={onEditInputChange}
           >
             <option value="Working">Working</option>
             <option value="Retired">Retired</option>
-          </select>
-        </div>
+          </Form.Control>
+        </Form.Group>
 
         {/* Button group for Save and Cancel actions */}
         <div className="button-group">
-          <button
+          <Button
             type="submit"
-            className="btn btn-info me-3"
+            variant="info"
+            className="me-3"
             onClick={onSaveEdit}
           >
             Save
-          </button>
-          <button
-            type="button"
-            className="btn btn-info"
-            onClick={() => navigate("/")}
-          >
+          </Button>
+          <Button type="button" variant="info" onClick={() => navigate("/")}>
             Cancel
-          </button>
+          </Button>
         </div>
-      </form>
-    </div>
+      </Form>
+    </Container>
   );
 };
 
