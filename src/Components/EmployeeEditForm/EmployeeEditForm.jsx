@@ -29,7 +29,7 @@ const EmployeeEditForm = () => {
   let alertMessage = null;
   if (showMessage) {
     alertMessage = (
-      <Alert variant={error ? "danger" : "success"} className="mb-3">
+      <Alert variant={error ? "danger" : "success"} className="mb-3 mt-3">
         {message}
       </Alert>
     );
@@ -75,11 +75,12 @@ const EmployeeEditForm = () => {
           `Employee ${updatedEmployee.firstName} ${updatedEmployee.lastName} updated successfully!`
         );
 
-        // Hides the success message after 3 seconds
+        // Hides the success message after 3 seconds and Navigates to home page
         setTimeout(() => {
           setShowMessage(false);
           setMessage("");
-        }, 3000);
+          navigate("/");
+        }, 2000);
       })
       .catch((error) => {
         console.error("Error updating employee:", error);
@@ -96,7 +97,6 @@ const EmployeeEditForm = () => {
   return (
     <Container className="edit-employee-form modal-content">
       <h3 className="mb-4">Edit Employee Data</h3>
-      {alertMessage}
       <Form name="editForm">
         {/* Form input fields */}
         <Form.Group controlId="firstName">
@@ -198,6 +198,7 @@ const EmployeeEditForm = () => {
           </Form.Control>
         </Form.Group>
 
+        {alertMessage}
         {/* Button group for Save and Cancel actions */}
         <div className="button-group">
           <Button

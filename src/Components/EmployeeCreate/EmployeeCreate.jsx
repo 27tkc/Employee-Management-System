@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Form, Container, Button, Alert } from "react-bootstrap";
 import "./EmployeeCreate.css"; // Importing your CSS file
+import { Navigate } from "react-router-dom";
 
 // EmployeeCreate component
 class EmployeeCreate extends Component {
@@ -9,6 +10,7 @@ class EmployeeCreate extends Component {
     this.state = {
       error: false,
       showMessage: false,
+      shouldRedirect: false,
       message: "",
     };
   }
@@ -73,13 +75,14 @@ class EmployeeCreate extends Component {
               message: `Employee ${newEmployee.firstName} ${newEmployee.lastName} created successfully!`,
             });
 
-            // Hide the success message after 3 seconds
+            // Hide the success message after 3 seconds and navigates to Home page.
             setTimeout(() => {
               this.setState({
                 showMessage: false,
                 message: "",
+                shouldRedirect: true,
               });
-            }, 3000);
+            }, 2000);
 
             // Clear the form inputs
             e.target.reset();
@@ -112,18 +115,22 @@ class EmployeeCreate extends Component {
       alertMessage = (
         <Alert
           variant={this.state.error ? "danger" : "success"}
-          className="mb-3"
+          className="mb-3 mt-3"
         >
           {this.state.message}
         </Alert>
       );
     }
 
+    // If statement that validates if shouldRedirect is true to redirect to a new page.
+    if (this.state.shouldRedirect) {
+      return <Navigate to="/" />;
+    }
+
     // Render the form
     return (
       <Container className="employee-form">
         <h1>Create New Employee</h1>
-        {alertMessage}
         <Form name="EmployeeCreate" onSubmit={this.handleSubmit}>
           {/* Form input fields for various employee details */}
           <Form.Group controlId="firstName">
@@ -181,6 +188,7 @@ class EmployeeCreate extends Component {
             </Form.Control>
           </Form.Group>
           <br />
+          {alertMessage}
           <div className="form-group d-flex justify-content-center">
             <Button type="submit" variant="primary">
               Add new Employee

@@ -39,6 +39,7 @@ import Navigation from "./routes/navigation/navigation";
 import EmployeeCreate from "./Components/EmployeeCreate/EmployeeCreate";
 import EmployeeEditForm from "./Components/EmployeeEditForm/EmployeeEditForm";
 import EmployeeDetails from "./Components/EmployeeDetails/EmployeeDetails";
+import EmployeeUpComingRetirement from "./Components/EmployeeUpComingRetirement";
 
 // The main App component
 function App() {
@@ -53,6 +54,10 @@ function App() {
           <Route path="/employee_create" element={<EmployeeCreate />} />
           <Route path="/employee_edit" element={<EmployeeEditForm />} />
           <Route path="/employee_details/:id" element={<EmployeeDetails />} />
+          <Route
+            path="/upcoming_retirement/"
+            element={<EmployeeUpComingRetirement />}
+          />
         </Route>
       </Routes>
     </div>

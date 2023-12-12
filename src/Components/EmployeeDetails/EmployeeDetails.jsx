@@ -1,11 +1,13 @@
+// Importing necessary dependencies from React and React Bootstrap
 import React, { Component } from "react";
-import { Form, Container, Button } from "react-bootstrap";
+import { Form, Container } from "react-bootstrap";
 import withRouter from "../withRouter"; // Importing the withRouter HOC for accessing route parameters
 import "./EmployeeDetails.css"; // Importing the CSS file for styling
 
 class EmployeeDetails extends Component {
   constructor() {
     super();
+    // Initializing component state to store employee data and error messages
     this.state = {
       employee: {}, // State to store employee data
       error: "", // State to store error messages
@@ -56,6 +58,37 @@ class EmployeeDetails extends Component {
 
           // Setting employee data in the component state
           this.setState({ employee: data.getEmployeeById });
+
+          const retirementAge = 65;
+          const currentDate = new Date();
+
+          const dateOfJoining = new Date(data.getEmployeeById.dateOfJoining);
+          const retirementDate = new Date(dateOfJoining);
+
+          // Calculating retirement date based on age
+          retirementDate.setFullYear(
+            retirementDate.getFullYear() +
+              (retirementAge - data.getEmployeeById.age)
+          );
+
+          const timeRemaining =
+            retirementDate.getTime() - currentDate.getTime();
+
+          // Calculate remaining days, months, and years
+          const remainingDays = Math.floor(
+            timeRemaining / (1000 * 60 * 60 * 24)
+          );
+          const remainingMonths = Math.floor(remainingDays / 30);
+          const remainingYears = Math.floor(remainingMonths / 12);
+
+          // Calculate remaining days and months within the current year/month
+          const days = remainingDays % 30;
+          const months = remainingMonths % 12;
+
+          // Add remaining time to employee data
+          data.getEmployeeById.remainingDays = days;
+          data.getEmployeeById.remainingMonths = months;
+          data.getEmployeeById.remainingYears = remainingYears;
         } else {
           console.error("No employee data found for ID:", id);
           this.setState({ error: "Employee data not found." });
@@ -162,6 +195,30 @@ class EmployeeDetails extends Component {
               type="text"
               value={employee?.currentStatus || ""}
               placeholder="currentStatus"
+              disabled
+            />
+          </Form.Group>
+          <Form.Group controlId="retirementdays">
+            <Form.Label>Retirement Days:</Form.Label>
+            <Form.Control
+              type="number"
+              value={employee?.remainingDays || ""}
+              disabled
+            />
+          </Form.Group>
+          <Form.Group controlId="retirementmonths">
+            <Form.Label>Retirement Months:</Form.Label>
+            <Form.Control
+              type="number"
+              value={employee?.remainingMonths || ""}
+              disabled
+            />
+          </Form.Group>
+          <Form.Group controlId="retirementyears">
+            <Form.Label>Retirement Years:</Form.Label>
+            <Form.Control
+              type="number"
+              value={employee?.remainingYears || ""}
               disabled
             />
           </Form.Group>

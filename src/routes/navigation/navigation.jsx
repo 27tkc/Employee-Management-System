@@ -49,6 +49,17 @@ const Navigation = () => {
               >
                 Create
               </Link>
+              <Link
+                className="nav-link"
+                to="/upcoming_retirement"
+                style={{
+                  background: "white",
+                  color: "black",
+                  marginRight: "10px",
+                }}
+              >
+                UpComing Retirement
+              </Link>
             </div>
           </div>
         </div>

@@ -9,8 +9,8 @@ class EmployeeDirectory extends Component {
     this.state = {
       name: "Employee Directory",
       employees: [],
-      searchText: "",
-      searchOption: "firstName",
+      ageOfRetirement: 65,
+      errorMessage: null,
     };
   }
 
@@ -66,44 +66,41 @@ class EmployeeDirectory extends Component {
    */
   employeeSearch = async (searchText, searchOption) => {
     const employeesFetched = await this.getEmployees();
-    this.setState({ employees: employeesFetched }, () => {
-      // Validates the data type of the search option selected
-      let dataTypeOfSearchOption = null;
-      for (const employee of this.state.employees) {
-        if (employee.hasOwnProperty(searchOption)) {
-          dataTypeOfSearchOption = typeof employee[searchOption];
-          if (
-            dataTypeOfSearchOption === "object" &&
-            employee[searchOption] instanceof Date
-          ) {
-            dataTypeOfSearchOption = "date";
-          }
-          break;
+
+    // Validates the data type of the search option selected
+    let dataTypeOfSearchOption = null;
+    for (const employee of employeesFetched) {
+      if (employee.hasOwnProperty(searchOption)) {
+        dataTypeOfSearchOption = typeof employee[searchOption];
+        if (
+          dataTypeOfSearchOption === "object" &&
+          employee[searchOption] instanceof Date
+        ) {
+          dataTypeOfSearchOption = "date";
         }
+        break;
       }
+    }
 
-      // Filters the employees based on the search text and search option.
-      const employeesFiltered = this.state.employees.filter((employee) => {
-        const propertyValue = employee[searchOption];
-        switch (dataTypeOfSearchOption) {
-          case "string":
-            return propertyValue
-              .toLowerCase()
-              .includes(searchText.toLowerCase());
-          case "number":
-            return propertyValue.toString().includes(searchText);
-          case "date":
-            return propertyValue
-              .toDateString()
-              .toLowerCase()
-              .includes(searchText.toLowerCase());
-          default:
-            return false;
-        }
-      });
-
-      this.setState({ employees: employeesFiltered });
+    // Filters the employees based on the search text and search option.
+    const employeesFiltered = employeesFetched.filter((employee) => {
+      const propertyValue = employee[searchOption];
+      switch (dataTypeOfSearchOption) {
+        case "string":
+          return propertyValue.toLowerCase().includes(searchText.toLowerCase());
+        case "number":
+          return propertyValue.toString().includes(searchText);
+        case "date":
+          return propertyValue
+            .toDateString()
+            .toLowerCase()
+            .includes(searchText.toLowerCase());
+        default:
+          return false;
+      }
     });
+
+    this.setState({ employees: employeesFiltered });
   };
 
   // Function to reset employee search and fetch all employees
@@ -144,7 +141,9 @@ class EmployeeDirectory extends Component {
     })
       .then((res) => res.json())
       .then((body) => {
-        if (body.data.deleteEmployee) {
+        if (body.errors) {
+          this.displayErrorMessage(body.errors[0].message);
+        } else if (body.data.deleteEmployee) {
           const deletedEmployeeId = body.data.deleteEmployee.id;
 
           // Filter employees to remove the deleted employee from the employee array
@@ -160,10 +159,25 @@ class EmployeeDirectory extends Component {
       });
   };
 
+  displayErrorMessage = (message) => {
+    this.setState({ errorMessage: message });
+    // Hide the success message after 3 seconds
+    setTimeout(() => {
+      this.setState({
+        errorMessage: "",
+      });
+    }, 3000);
+  };
+
   // Rendering the component
   render() {
     return (
       <div className="container-xl">
+        {this.state.errorMessage && (
+          <div className="alert alert-danger mt-3" role="alert">
+            {this.state.errorMessage}
+          </div>
+        )}
         <h1>{this.state.name}</h1>
         {/* EmployeeSearch component for search functionality */}
         <EmployeeSearch

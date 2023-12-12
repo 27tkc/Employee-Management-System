@@ -7,7 +7,6 @@ import {
   FormControl,
   FormGroup,
 } from "react-bootstrap";
-import { Navigate } from "react-router-dom";
 
 class EmployeeSearch extends Component {
   constructor() {

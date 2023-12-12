@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { Button, Table } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 import { Navigate } from "react-router-dom";
+import EmployeeRow from "./EmployeeRow";
 
 class EmployeeTable extends Component {
   constructor(props) {
@@ -44,7 +45,12 @@ class EmployeeTable extends Component {
    *
    * @param {*} employeeId Employee id to be deleted
    */
-  handleDeleteEmployee = (employeeId) => {
+  handleDeleteEmployee = (employeeId, currentStatus) => {
+    // Check if the current status is 'Working' before attempting to delete
+    if (currentStatus === "Working") {
+      alert("CAN’T DELETE EMPLOYEE – STATUS ACTIVE");
+      return;
+    }
     this.props.deleteEmployee({
       employeeId,
     });
@@ -68,45 +74,20 @@ class EmployeeTable extends Component {
       }
     }
 
-    const employeesRow = employees.map((employee) => (
-      <tr key={employee.id}>
-        <td>{employee.id}</td>
-        <td>{employee.firstName}</td>
-        <td>{employee.lastName}</td>
-        <td>{employee.age}</td>
-        <td>
-          {employee.dateOfJoining != null
-            ? employee.dateOfJoining.toDateString()
-            : ""}
-        </td>
-        <td>{employee.title}</td>
-        <td>{employee.department}</td>
-        <td>{employee.employeeType}</td>
-        <td>{employee.currentStatus}</td>
-        <td>
-          <Button
-            variant="outline-info"
-            className="me-2"
-            onClick={() => this.handleDetailsClick(employee)}
-          >
-            Details
-          </Button>
-          <Button
-            variant="outline-info"
-            className="me-2"
-            onClick={() => this.handleEditClick(employee)}
-          >
-            Edit
-          </Button>
-          <Button
-            variant="outline-info"
-            onClick={() => this.handleDeleteEmployee(employee.id)}
-          >
-            Delete
-          </Button>
-        </td>
-      </tr>
-    ));
+    const employeesRow = employees.map((employee) => {
+      return (
+        <EmployeeRow
+          key={employee.id}
+          employee={employee}
+          handleDetailsClick={this.handleDetailsClick}
+          handleEditClick={this.handleEditClick}
+          handleDeleteEmployee={() =>
+            this.handleDeleteEmployee(employee.id, employee.currentStatus)
+          }
+          showButtons={true}
+        />
+      );
+    });
 
     return (
       <div className="mt-5">
